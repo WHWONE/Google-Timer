@@ -1,0 +1,7 @@
+{
+  "name": "ChainFlow Timer",
+  "description": "A chained audio timer app that verbally announces the next task using Gemini TTS and auto-advances through your sequence.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}

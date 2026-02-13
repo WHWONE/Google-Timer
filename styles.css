@@ -1,0 +1,29 @@
+body { margin: 0; padding: 20px; background: #f0f0f0; font-family: Arial, sans-serif; }
+        #controls { text-align: center; margin-bottom: 20px; }
+        #controls label { margin: 0 12px 8px; display: inline-block; }
+        #piano { display: flex; justify-content: center; flex-wrap: wrap; }
+        .key { position: relative; width: 40px; height: 200px; background: white; border: 1px solid #000; box-sizing: border-box; cursor: pointer; }
+        .key.black { width: 24px; height: 120px; background: black; position: absolute; margin-left: -12px; z-index: 1; }
+        .key.active { background: #ccc; }
+        .key.black.active { background: #666; }
+        .octave { display: flex; position: relative; }
+        #instructions { text-align: center; margin-bottom: 10px; }
+        #melody-display { margin-top: 20px; padding: 12px; background: #fff; border: 1px solid #ccc; max-width: 900px; margin-left: auto; margin-right: auto; white-space: pre-wrap; line-height: 1.5; font-family: monospace; }
+        button { padding: 10px 20px; margin: 8px 4px; font-size: 16px; cursor: pointer; }
+        select, input[type="range"] { font-size: 16px; padding: 6px 10px; min-width: 140px; }
+        .tempo-display { font-size: 16px; margin-left: 8px; font-weight: bold; }
+        .rhythm-weights { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin: 10px 0; }
+        .rhythm-section { margin-top: 20px; }
+        .rhythm-section h4 { margin-bottom: 8px; }
+        /* NEW CHORD UI STYLING */
+        .chord-section { 
+            margin-top: 20px; 
+            border: 2px solid #007bff; 
+            padding: 15px; 
+            border-radius: 8px; 
+            background: #eef7ff; 
+            display: inline-block; 
+            width: 100%; 
+            max-width: 870px; 
+            box-sizing: border-box;
+        }

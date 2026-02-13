@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Piano – Melody & Chord Progression Generator</title>
+    <script src="https://cdn.jsdelivr.net/npm/soundfont-player@0.12.0/dist/soundfont-player.min.js"></script>
+    <link rel="stylesheet" href="./styles.css">
+    </head>
+<body>
+<div id="instructions">
+        <p>Click piano keys with mouse or use computer keyboard (limited Z–M / Q–P mapping – mouse for full access).</p>
+    </div>
+
+    <div id="controls">
+        <div>
+            <label>Key: 
+                <select id="rootNote">
+                    <option value="C">C</option><option value="C#">C♯</option><option value="Db">D♭</option>
+                    <option value="D">D</option><option value="D#">D♯</option><option value="Eb">E♭</option>
+                    <option value="E">E</option><option value="F">F</option><option value="F#">F♯</option>
+                    <option value="Gb">G♭</option><option value="G">G</option><option value="G#">G♯</option>
+                    <option value="Ab">A♭</option><option value="A">A</option><option value="A#">A♯</option>
+                    <option value="Bb">B♭</option><option value="B">B</option>
+                </select>
+            </label>
+            <label>Mode: 
+                <select id="mode">
+                    <option value="major" selected>Major</option>
+                    <option value="natural_minor">Natural Minor</option>
+                    <option value="harmonic_minor">Harmonic Minor</option>
+                    <option value="melodic_minor">Melodic Minor (asc)</option>
+                    <option value="dorian">Dorian</option>
+                    <option value="mixolydian">Mixolydian</option>
+                    <option value="phrygian">Phrygian</option>
+                    <option value="lydian">Lydian</option>
+                </select>
+            </label>
+        </div>
+        <div>
+            <label>Bars: 
+                <select id="numBars">
+                    <option value="2">2</option>
+                    <option value="4" selected>4</option>
+                    <option value="8">8</option>
+                    <option value="16">16</option>
+                </select>
+            </label>
+            <label>Time Sig: 
+                <select id="timeSig">
+                    <option value="4/4" selected>4/4</option>
+                    <option value="3/4">3/4</option>
+                </select>
+            </label>
+            <label>Phrase Len (bars): 
+                <select id="phraseLen">
+                    <option value="2">2</option>
+                    <option value="4" selected>4</option>
+                    <option value="8">8</option>
+                </select>
+            </label>
+            <label>Tempo: 
+                <input type="range" id="bpm" min="60" max="160" value="120" step="1">
+                <span id="bpmValue" class="tempo-display">120 BPM</span>
+            </label>
+            <label>Contour: 
+                <select id="contour">
+                    <option value="rising">Rising (gentle climb)</option>
+                    <option value="falling">Falling (gentle descent)</option>
+                    <option value="arch" selected>Arch (rise then fall – classic)</option>
+                    <option value="wavy">Wavy (up-down oscillations)</option>
+                    <option value="descending_arch">Descending Arch (fall then slight rise)</option>
+                    <option value="stepwise_with_leaps">Stepwise with Leaps (small steps + jumps)</option>
+                    <option value="circular">Circular (frequent returns to home note)</option>
+                    <option value="random_resolved">Free with Strong Resolution</option>
+                </select>
+            </label>
+            <label>Low: <select id="lowNote"></select></label>
+            <label>High: <select id="highNote"></select></label>
+        </div>
+
+        <div class="chord-section">
+            <label><strong>Chord Strategy:</strong> 
+                <select id="chordStrategy">
+                    <option value="hybrid" selected>Hybrid (Rules + Presets)</option>
+                    <option value="tonic_start">Tonic-Starting (I, vi)</option>
+                    <option value="subdominant_start">Subdominant-Starting (IV, ii)</option>
+                    <option value="dominant_start">Dominant-Starting (V)</option>
+                    <option value="mediant_start">Mediant-Starting (iii)</option>
+                </select>
+            </label>
+            <label>Chord Volume: <input type="range" id="chordVolume" min="0" max="100" value="45"><span id="chordVolumeValue" class="tempo-display">45</span></label>
+            <label>Sync: <select id="chordRate"><option value="1">1 Chord / Bar</option><option value="2">2 Chords / Bar</option></select></label>
+            <label>Harmonic Rhythm: 
+                <select id="harmonicRhythm">
+                    <option value="pillar" selected>Pillar</option>
+                    <option value="pulse">Pulse</option>
+                    <option value="march">March</option>
+                    <option value="waltz_feel">Waltz Feel</option>
+                    <option value="push">Push</option>
+                    <option value="charleston">Charleston</option>
+                    <option value="backbeat">Backbeat</option>
+                    <option value="anticipator">Anticipator</option>
+                    <option value="heartbeat">Heartbeat</option>
+                    <option value="off_grid">Off-Grid</option>
+                    <option value="gallop">Gallop</option>
+                    <option value="hemiola">3-over-4 (Hemiola)</option>
+                    <option value="slow_cycle">Slow Cycle</option>
+                    <option value="tremolo_block">Tremolo Block</option>
+                    <option value="ghost_notes">Ghost Notes</option>
+                    <option value="bossa_nova">Bossa Nova</option>
+                    <option value="cinematic_swell">Cinematic Swell</option>
+                    <option value="trap_triplets">Trap Triplets</option>
+                    <option value="pyramid">Pyramid</option>
+                    <option value="random_walk">Random Walk</option>
+                    <option value="triplet_eighths">Triplet Eighths</option>
+                    <option value="triplet_quarters">Triplet Quarters</option>
+                    <option value="e_and_a">E and A</option>
+                    <option value="double_pushed">Double-Pushed</option>
+                    <option value="five_over_four">5-over-4</option>
+                    <option value="pedal">Pedal</option>
+                    <option value="decrescendo">Decrescendo</option>
+                    <option value="accelerando">Accelerando</option>
+                </select>
+            </label>
+        </div>
+
+        <div>
+            <label>Motif start prob: 
+                <select id="motifStartProb">
+                    <option value="0">Off</option>
+                    <option value="0.25">Low</option>
+                    <option value="0.45" selected>Medium</option>
+                    <option value="0.70">High</option>
+                </select>
+            </label>
+            <label>Motif repeat chance: 
+                <select id="motifRepeatChance">
+                    <option value="0">Off</option>
+                    <option value="0.4">Low</option>
+                    <option value="0.65" selected>Medium</option>
+                    <option value="0.85">High</option>
+                    <option value="0.95">Very High</option>
+                </select>
+            </label>
+            <label>Motif length: 
+                <select id="motifLength">
+                    <option value="0">Off</option>
+                    <option value="2">2 notes</option>
+                    <option value="3" selected>3 notes</option>
+                    <option value="4">4 notes</option>
+                    <option value="5">5 notes</option>
+                </select>
+            </label>
+            <label>Interval Style: 
+                <select id="intervalStyle">
+                    <option value="natural" selected>Natural (singable)</option>
+                    <option value="stepwise">Mostly stepwise</option>
+                    <option value="leaps">More leaps</option>
+                    <option value="chromatic">Chromatic flavor</option>
+                </select>
+            </label>
+        </div>
+        <details class="rhythm-section" open>
+            <summary style="font-weight: bold; cursor: pointer; font-size: 1.1em; margin-bottom: 10px;">Rhythm Duration Weights (0-100)</summary>
+            <h4>Note Weights</h4>
+            <div class="rhythm-weights">
+                <label>Whole Note: <input type="range" id="weight-note-whole" min="0" max="100" value="1"><span class="weight-val">1</span></label>
+                <label>Half Note: <input type="range" id="weight-note-half" min="0" max="100" value="5"><span class="weight-val">5</span></label>
+                <label>Dotted Quarter Note: <input type="range" id="weight-note-dotted-quarter" min="0" max="100" value="10"><span class="weight-val">10</span></label>
+                <label>Quarter Note: <input type="range" id="weight-note-quarter" min="0" max="100" value="22"><span class="weight-val">22</span></label>
+                <label>Dotted Eighth Note: <input type="range" id="weight-note-dotted-eighth" min="0" max="100" value="18"><span class="weight-val">18</span></label>
+                <label>Eighth Note: <input type="range" id="weight-note-eighth" min="0" max="100" value="26"><span class="weight-val">26</span></label>
+                <label>Dotted 16th Note: <input type="range" id="weight-note-dotted-16th" min="0" max="100" value="8"><span class="weight-val">8</span></label>
+                <label>16th Note: <input type="range" id="weight-note-16th" min="0" max="100" value="14"><span class="weight-val">14</span></label>
+            </div>
+            <h4>Rest Weights</h4>
+            <div class="rhythm-weights">
+                <label>Whole Rest: <input type="range" id="weight-rest-whole-rest" min="0" max="100" value="1"><span class="weight-val">1</span></label>
+                <label>Half Rest: <input type="range" id="weight-rest-half-rest" min="0" max="100" value="2"><span class="weight-val">2</span></label>
+                <label>Dotted Quarter Rest: <input type="range" id="weight-rest-dotted-quarter-rest" min="0" max="100" value="3"><span class="weight-val">3</span></label>
+                <label>Quarter Rest: <input type="range" id="weight-rest-quarter-rest" min="0" max="100" value="5"><span class="weight-val">5</span></label>
+                <label>Dotted Eighth Rest: <input type="range" id="weight-rest-dotted-eighth-rest" min="0" max="100" value="4"><span class="weight-val">4</span></label>
+                <label>Eighth Rest: <input type="range" id="weight-rest-eighth-rest" min="0" max="100" value="6"><span class="weight-val">6</span></label>
+                <label>Dotted 16th Rest: <input type="range" id="weight-rest-dotted-16th-rest" min="0" max="100" value="2"><span class="weight-val">2</span></label>
+                <label>16th Rest: <input type="range" id="weight-rest-16th-rest" min="0" max="100" value="4"><span class="weight-val">4</span></label>
+            </div>
+        </details>
+        <button id="generateBtn" style="background: #007bff; color: white;">Generate Musical Melody & Chords</button>
+        <button id="playBtn" disabled style="background: #28a745; color: white;">Play Composition</button>
+        <div id="melody-display">No composition generated yet.</div>
+    </div>
+
+    <div id="piano"></div>
+
+    <script type="module" src="./src/main.js"></script>
+</body>
+</html>
